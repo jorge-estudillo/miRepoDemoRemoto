@@ -1,5 +1,10 @@
+import jwt from "jsonwebtoken";
+
 export default function auth(req, res, next){
-    const token = req.cookies.token;
+    console.log("Cookie:",req.cookies);
+    
+    const token = req.cookies?.token;
+    const SECRET="supersupersecreto";
 
     if(!token){
         return res.status(401).json({message:"No autenticado"});
@@ -10,6 +15,7 @@ export default function auth(req, res, next){
         req.user = decoded;
         next();       
     } catch{
+        console.log("ERROR EN EL JWT", error.message);
         return res.status(401).json({message:"Token no valido"});
     }
 }

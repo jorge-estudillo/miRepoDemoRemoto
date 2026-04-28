@@ -24,12 +24,12 @@ app.post("/login", (req, res) => {
 
     //fake validation
     if (username==="admin" && password==="12345"){
+        console.log("Login realizado...");
         const token=jwt.sign({username},SECRET,{expiresIn:"1h"});
         res.cookie("token", token, {
             httpOnly: true,
             secure: false,
-            sameSite: "strict",
-            maxAge: 3600000
+            sameSite: "Lax"
         });
         return res.json({message:"Login exitoso"})
     }
@@ -39,7 +39,7 @@ app.post("/login", (req, res) => {
 app.get("/perfil", auth, (req, res)=>{
     res.json({
         message:"Eres un usuario protegido",
-        user: req.username
+        user: req.user
     });
 });
 
